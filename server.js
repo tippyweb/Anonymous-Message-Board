@@ -8,7 +8,26 @@ const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
 
+// Adding db-connection.js
+require('./db-connection.js');
+
 const app = express();
+
+// Adding helmet module
+const helmet = require('helmet');
+
+app.use(helmet.frameguard({action: 'sameorigin'}));
+app.use(helmet.dnsPrefetchControl({allow: false}));
+app.use(helmet.referrerPolicy({policy: 'same-origin'}));
+/*
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'"],
+    styleSrc: ["'self'"]
+  }
+}));
+*/
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
